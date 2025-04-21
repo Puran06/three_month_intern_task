@@ -1,0 +1,184 @@
+/* Optional: Import a font like Poppins */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); */
+
+.upload-container {
+    max-width: 700px; /* Adjusted width */
+    margin: 40px auto;
+    padding: 35px 45px; /* Generous padding */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+    font-family: 'Poppins', Arial, sans-serif; /* Apply font */
+    border: 1px solid #e6e6e6; /* Softer border */
+  }
+  
+  /* Style the title */
+  .upload-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px; /* Space below title */
+    font-weight: 600;
+  }
+  
+  .upload-form {
+    margin-bottom: 30px; /* Space below the form area */
+  }
+  
+  /* Container for input and button - Use Flexbox */
+  .file-input-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Space between input and button */
+    align-items: stretch; /* Make items same height */
+    border: 1px solid #ccc; /* Border around the group */
+    border-radius: 8px;
+    padding: 8px; /* Padding inside the container */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .file-input-container:focus-within {
+    border-color: #007BFF;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  .file-input {
+    flex-grow: 1; /* Take available space */
+    border: none; /* Remove default border */
+    padding: 10px 15px; /* Padding inside input area */
+    font-size: 16px;
+    background: transparent;
+    outline: none;
+    color: #555;
+    min-width: 200px; /* Prevent excessive shrinking */
+    align-self: center; /* Vertically center text */
+  }
+  
+  /* Style the file input's button part */
+  .file-input::file-selector-button {
+    background-color: #e9ecef;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-right: 10px;
+    font-weight: 500;
+  }
+  
+  .file-input::file-selector-button:hover {
+    background-color: #dcdfe2;
+  }
+  
+  .upload-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px; /* Match file selector button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    flex-shrink: 0; /* Prevent button from shrinking */
+  }
+  
+  .upload-button:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .upload-button:disabled {
+    background-color: #b0c4de;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
+  /* Image Preview Styling */
+  .image-preview {
+    display: block; /* Ensure it's a block element */
+    max-width: 100%; /* Responsive width */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 450px; /* Limit maximum height */
+    margin: 30px auto; /* Center block element and add vertical space */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9; /* Light background if image loading is slow */
+    padding: 6px; /* Padding around the image */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  }
+  
+  /* Styling for Caption and Description Display */
+  /* Optional: Wrap results in a box for better visual grouping */
+  /* If you add <div className="results-box"> around caption/desc in JSX: */
+  /*
+  .results-box {
+    margin-top: 30px;
+    padding: 20px 25px;
+    background-color: #f8f9fa;
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  }
+  */
+  
+  /* Styling directly applied to the <p> tags */
+  .caption, .description {
+    background-color: #f8f9fa; /* Light background for each */
+    border: 1px solid #e7e7e7;
+    border-radius: 8px;
+    padding: 15px 20px; /* Padding inside */
+    margin-top: 20px; /* Space above each */
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    text-align: left; /* Ensure text is left-aligned */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  
+  .caption strong, .description strong {
+    font-weight: 600;
+    color: #0056b3; /* Highlight the label */
+    margin-right: 8px; /* Space after label */
+  }
+  
+  /* Error Message Styling */
+  .error-message {
+    /* Using div (block) is better for layout */
+    display: block; /* Make sure it takes full width */
+    color: #d93025;
+    background-color: #fce8e6;
+    border: 1px solid #f4c7c3;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-top: 25px;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left; /* Align text left */
+  }
+  
+  /* Responsive adjustments (Example) */
+  @media (max-width: 600px) {
+    .upload-container {
+      margin: 20px auto;
+      padding: 25px 20px;
+    }
+  
+    .file-input-container {
+       padding: 5px; /* Reduce padding */
+    }
+  
+    .file-input {
+      min-width: 150px; /* Adjust min-width */
+    }
+  
+    .upload-button {
+       width: 100%; /* Make button full width on small screens */
+    }
+  
+    .caption, .description {
+       padding: 12px 15px;
+       font-size: 15px;
+    }
+  }

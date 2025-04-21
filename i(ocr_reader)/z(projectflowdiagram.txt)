@@ -1,0 +1,82 @@
+  ┌───────────────────────────────┐
+
+      │       1. User Uploads        │
+
+      │  (Image or PDF via Frontend) │
+
+      └──────────────┬────────────────
+
+                     │
+
+                     ▼
+
+      ┌───────────────────────────────┐
+
+      │     2. Node.js Server         │
+
+      │     (Express + Multer)        │
+
+      │ Handles file upload & saves   │
+
+      └──────────────┬────────────────
+
+                     │
+
+                     ▼
+
+      ┌───────────────────────────────┐
+
+      │   3. OCR Processing Layer     │
+
+      │ ┌────────────┐ ┌────────────┐ │
+
+      │ │ Tesseract.js│ │ Google Vision││
+
+      │ └────────────┘ └────────────┘ │
+
+      │ Extracts text from file        │
+
+      └──────────────┬────────────────
+
+                     │
+
+                     ▼
+
+      ┌───────────────────────────────┐
+
+      │  4. Summarization Layer       │
+
+      │   Langchain + GPT / Gemini    │
+
+      │  → Send extracted text        │
+
+      │  → Receive summary back       │
+
+      └──────────────┬────────────────
+
+                     │
+
+                     ▼
+
+      ┌───────────────────────────────┐
+
+      │     5. Store in Weaviate      │
+
+      │ Save original + summary text  │
+
+      │ For future search & reference │
+
+      └──────────────┬────────────────
+
+                     │
+
+                     ▼
+
+      ┌───────────────────────────────┐
+
+      │     6. Send Summary Back      │
+
+      │     Return to frontend/user   │
+
+      └───────────────────────────────┘
+

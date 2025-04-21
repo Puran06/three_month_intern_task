@@ -1,0 +1,18 @@
+PROJECT_NEW_CHATBOT/
+├── controllers/
+│   └── chatController.js
+├── node_modules/
+├── routes/
+│   └── chatRoutes.js
+├── src/
+│   ├── embedding.js
+│   ├── generative_ai.js
+│   ├── splitter.js
+│   └── weaviate.js
+├── utils/
+│   ├── generalQuery.js
+│   └── translate.js
+├── .env
+├── package-lock.json
+├── package.json
+└── server.js

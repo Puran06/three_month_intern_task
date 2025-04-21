@@ -1,0 +1,7 @@
+Audio File (upload via Postman)
+        ↓
+AssemblyAI → Transcribes audio
+        ↓
+LangChain → Summarizes the transcript using OpenAI
+        ↓
+JSON Response → { transcription, summary }
