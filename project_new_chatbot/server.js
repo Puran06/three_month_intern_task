@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import chatRoutes from "./routes/chatRoutes.js";
+import cors from "cors"; // Import CORS
 
 // Configuration
 dotenv.config();
@@ -9,6 +10,7 @@ const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
+app.use(cors());
 
 // Routes
 app.use("/api", chatRoutes);
