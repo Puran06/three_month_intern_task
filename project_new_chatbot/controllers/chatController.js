@@ -1,8 +1,8 @@
+import { loadAndIndexPDF, askQuestion } from '../src/splitter_pdf.js'; // ⬅️ Updated import
 import { processAndAnswerQuery } from '../src/splitter.js';
-import { processPdfQuery } from '../src/splitter_pdf.js';
 import { translateSentence } from '../utils/translate.js';
 import { handleGeneralQuery } from '../utils/generalQuery.js';
-import fs from 'fs/promises';  // for deleting file
+import fs from 'fs/promises';
 
 export const handleChat = async (req, res) => {
   const { sentence, url } = req.body;
@@ -27,27 +27,33 @@ export const handleChat = async (req, res) => {
 
     // 3. Handle PDF + question
     if (sentence && pdfFile) {
-      const result = await processPdfQuery(pdfFile.path, sentence);
+      // Step 1: Index the uploaded PDF
+      const { documentId } = await loadAndIndexPDF(pdfFile.path);
 
-      // Delete the uploaded PDF after it's processed
-      try {
-        await fs.unlink(pdfFile.path);
-        console.log(`Deleted uploaded file: ${pdfFile.path}`);
-      } catch (deleteError) {
-        console.warn(`Failed to delete uploaded file: ${deleteError.message}`);
-      }
+      // Step 2: Ask the question with the generated documentId
+      const result = await askQuestion(sentence, documentId);
+
+      // Step 3: Schedule deletion of the file after 5 minutes
+      setTimeout(async () => {
+        try {
+          await fs.unlink(pdfFile.path);
+          console.log(`🧹 Deleted uploaded file after delay: ${pdfFile.path}`);
+        } catch (deleteError) {
+          console.warn(`⚠️ Failed to delete uploaded file: ${deleteError.message}`);
+        }
+      }, 5 * 60 * 1000);
 
       return res.json({ from: pdfFile.originalname, answer: result.answer });
     }
 
-    // 4. Handle general question
+    // 4. Handle general question (no PDF or URL)
     if (sentence) {
       const response = await handleGeneralQuery(sentence);
       return res.json({ response });
     }
 
   } catch (error) {
-    console.error("Chat handling error:", error);
+    console.error("💥 Chat handling error:", error.message);
     return res.status(500).json({ error: 'Failed to process the request.' });
   }
 };

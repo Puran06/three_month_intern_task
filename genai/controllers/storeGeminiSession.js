@@ -9,11 +9,23 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 const PRICING_PER_1K_INPUT_TOKENS = 2;
 const PRICING_PER_1K_OUTPUT_TOKENS = 1;
 
+// Rough estimate for token count (1 token ≈ 4 characters)
+const estimateTokenCount = (text = "") => Math.ceil(text.length / 4);
+
+// Limit constants
+const MAX_INPUT_TOKENS = 200;
+const MAX_OUTPUT_TOKENS = 500;
+
 const storeGeminiSession = async (req, res) => {
     const { prompt, sessionId, userId } = req.body;
 
     if (!prompt || !userId) {
         return res.status(400).json({ error: "Prompt and userId are required." });
+    }
+
+    const estimatedInputTokens = estimateTokenCount(prompt);
+    if (estimatedInputTokens > MAX_INPUT_TOKENS) {
+        return res.status(400).json({ error: `Prompt exceeds the input token limit of ${MAX_INPUT_TOKENS}.` });
     }
 
     try {
@@ -26,9 +38,14 @@ const storeGeminiSession = async (req, res) => {
 
         // ✅ Get usageMetadata from correct location
         const usage = response.usageMetadata || {};
-        const inputTokens = usage.promptTokenCount || 0;
-        const outputTokens = usage.candidatesTokenCount || 0;
+        const inputTokens = usage.promptTokenCount || estimatedInputTokens;
+        const outputTokens = usage.candidatesTokenCount || estimateTokenCount(text);
         const totalTokens = inputTokens + outputTokens;
+
+        // ✅ Enforce output token limit
+        if (outputTokens > MAX_OUTPUT_TOKENS) {
+            return res.status(400).json({ error: `Generated response exceeds the output token limit of ${MAX_OUTPUT_TOKENS}.` });
+        }
 
         // Calculate cost
         const cost = (
